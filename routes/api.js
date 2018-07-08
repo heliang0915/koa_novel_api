@@ -4,7 +4,6 @@ let fetch=require('../util/fetch')
 router.prefix('/api');
 
 router.get('*',async (ctx,next)=>{
-    // next();
     let url=ctx.request.originalUrl;
     url=url.replace('/api','');
     let res=await  fetch.get(url);

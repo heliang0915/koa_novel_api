@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+        [v-cloak]{
+          display: none;
+        }
+      #app img{
+        width: 120px;
+        height: 150px;
+      }
+      #app ul{
+        list-style: none;
+       /*  display: flex; */
+        /* width: 800px; */
+        /* flex-wrap: wrap; */
+        /*justify-content: center;*/
+
+      }
+      #app ul li{
+         margin: 10px;
+      
+      }
+      #app ul li a{
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        width: 70px;
+        height: 70px;
+        align-items: center;
+        justify-content: center;
+        /* display: flex;
+        flex-direction: column;
+        align-items: center; */
+      }
+
+      .category-itme{
+          display: flex;
+          width:497px;
+          flex-wrap: wrap;
+          border-left: 1px solid #ccc;
+          border-top: 1px solid #ccc;
+
+      }
+      .category-itme h4{
+         margin: 0;
+         padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>EJS Welcome to <%= title %></p>
+    <div id="app" v-cloak>
+        <ul>
+          <li v-if="key!='ok'" v-for="(item,key) in category" >
+              <h3>{{map[key]}}</h3>
+              <div class="category-itme">
+                <a v-for="secondCat in item"
+                   :href="'/novel/sub-category/'+key+'/hot/'+secondCat.name " > 
+
+                 <h4>{{secondCat.name}}</h4>
+                 <span>{{secondCat.bookCount}}</span>
+              </a>
+              </div>
+          </li>
+        </ul>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+    <script>
+         
+        var vm=new Vue({
+             el:"#app",
+             data:{
+                category:{},
+                map:{
+                  male:"男生",
+                  female:"女生",
+                  picture:"动漫",
+                  press:"版权",
+                }
+             },
+             methods:{
+                 //获取大分类
+                 getCategoryList:function () {
+                     let self=this;
+                     axios.get('/api/categories').then((response)=>{
+                        let category=response.data;
+                         self.category=category;
+                     })
+                 }
+             },
+            mounted(){
+              this.getCategoryList();
+            }
+        });
+    </script>
+
+  </body>
+</html>

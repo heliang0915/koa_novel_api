@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+        [v-cloak]{
+          display: none;
+        }
+      #app img{
+        width: 120px;
+        height: 150px;
+      }
+      #app ul{
+        list-style: none;
+        display: flex;
+        width: 800px;
+        flex-wrap: wrap;
+        /*justify-content: center;*/
+
+      }
+        #app ul li{
+           margin: 10px;
+        }
+        #app ul li a{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+    </style>
+  </head>
+  <body>
+    
+    <div id="app" v-cloak>
+      <h1><%= title %>---{{major}}</h1>
+        <ul>
+          <li v-for="item in bookList" >
+            <a :href="'/novel/getDetail/'+item._id">
+              <img :src="item.cover|formatImg" :alt="item.title">
+              <h4>{{item.title}}</h4>
+              <!-- {{JSON.stringify(item)}} -->
+            </a>
+          </li>
+        </ul>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+    <script>
+         
+        var vm=new Vue({
+             el:"#app",
+             data:{
+                bookList:[],
+                gender:'<%-gender%>',
+                type:'<%-type%>',
+                major:'<%-major%>',
+                minor:'<%-minor%>'
+             },
+             filters:{
+                formatImg(val){
+                 return decodeURIComponent(val.replace("/agent/",""));
+                } 
+             },
+             methods:{
+                 //获取书籍
+                 getBooks:function () {
+                     let self=this;
+                     axios.get('/api/category-info?gender='+this.gender+'&type='+this.type+'&major='+this.major+'&minor='+this.minor+'&start=0&limit=20').then((response)=>{
+                        let books=response.data.books;
+                         self.bookList=books;
+                        // console.log(books)
+                     })
+                 }
+             },
+            mounted(){
+              this.getBooks();
+            }
+        });
+    </script>
+
+  </body>
+</html>

@@ -3,80 +3,10 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <style>
-        [v-cloak]{
-          display: none;
-        }
-      #app img{
-        width: 120px;
-        height: 150px;
-      }
-      #app ul{
-        list-style: none;
-        display: flex;
-        /*justify-content: center;*/
-
-      }
-        #app ul li{
-           margin: 10px;
-        }
-        #app ul li a{
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-    </style>
+     
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>EJS Welcome to <%= title %></p>
-    <div id="app" v-cloak>
-        <ul>
-          <li v-for="item in bookList" >
-            <a href="">
-              <img :src="item.cover|formatImg" :alt="item.title">
-              <h4>{{item.title}} == {{JSON.stringify(item)}}</h4>
-            </a>
-          </li>
-        </ul>
-
-        <div>
-           内容
-        </div>
-    </div>
-    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
-    <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
-    <script>
-
-       //https://api02u58f.zhuishushenqi.com/btoc/580a17df3fe31df713f1f0f7?view=chapters 一本书的所有章节
-
-
-        var vm=new Vue({
-             el:"#app",
-             data:{
-                bookList:[]
-             },
-             filters:{
-                formatImg(val){
-                 return decodeURIComponent(val.replace("/agent/",""));
-                }
-             },
-             methods:{
-                 //获取书籍
-                 getBooks:function () {
-                     let self=this;
-                     axios.get('/api/book/fuzzy-search?query=一念&start=0&limit=2').then((response)=>{
-                        let books=response.data.books;
-                         self.bookList=books;
-                        // console.log(books)
-                     })
-                 }
-             },
-            mounted(){
-              this.getBooks();
-            }
-        });
-    </script>
-
+    <!-- <h1><%= title %></h1> -->
+    <h2>Welcome to Novel API</p>
   </body>
 </html>

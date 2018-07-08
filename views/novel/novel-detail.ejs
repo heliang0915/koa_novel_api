@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+        [v-cloak]{
+          display: none;
+        }
+      #app img{
+        width: 120px;
+        height: 150px;
+      }
+      #app ul{
+        list-style: none;
+        /* display: flex;
+        width: 800px;
+        flex-wrap: wrap; */
+        /*justify-content: center;*/
+
+      }
+        #app ul li{
+           margin: 10px;
+        }
+        #app ul li a{
+          /* display: flex;
+          flex-direction: column;
+          align-items: center; */
+        }
+    </style>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>EJS Welcome to <%= title %></p>
+    <div id="app2" v-cloak>
+        <div>
+            <div v-show="loadding">加载中...</div>
+            <div v-show="!loadding">
+                <ul>
+                  <li>标题：{{info.title}}</li>
+                  <li>作者：{{info.author}}</li>
+                  <li>封面：
+                    <img :src="info.cover|formatImg">
+                  </li>
+                  <li>简介：{{info.longIntro}}</li>
+                  <li>分类：{{info.majorCate}}</li>
+                  <li>最新章节：{{info.lastChapter}}</li>
+                </ul>
+                 
+                  <div>
+                    数据来源
+                      <div  v-for="(source,index) in sources" >
+                        <input :id="source.name" @click="getBookChapters(source,index)" type="radio" :checked="sourceSel==index" name="source">
+                        <label :for="source.name">{{source.name}}</label>
+                      </div>
+                  </div>
+                章节列表
+                <ul>
+                    <li v-show="chapters.length==0"> 章节加载中...</li>
+                   <li v-show="chapters.length>0&&chapter.isVip==false" v-for="  chapter in chapters">
+                      <a  :href="'/novel/read/'+encodeURIComponent(chapter.link)">{{chapter.title}} </a>
+                      <em>是否付费:<font :style="isFree(chapter)">{{chapter.isVip==true?"付费":"免费"}}</font></em>
+            
+                   </li>
+                </ul>
+
+                  <!-- <form id=''></form> -->
+                 <!-- 内容 -->
+                <!-- <div>
+                    <div v-show="Object.keys(chapter).length==0"> 内容加载中...</div>
+                   <div v-show="Object.keys(chapter).length>0">{{chapter.cpContent}}</div>
+                </div> -->
+              </div>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+    <script>
+
+       var id='<%=id%>';
+        var vm=new Vue({
+             el:"#app2",
+             data:{
+                info:{},
+                chapters:[],
+                chapter:{},
+                sources:[],
+                sourceSel:0
+             },
+             computed:{
+               loadding:function(){
+                  return Object.keys(this.info).length==0
+               }
+               
+             },
+             filters:{
+                formatImg(val){
+                  if(val){
+                    return decodeURIComponent(val.replace("/agent/",""));
+                  }else{
+                    return "";
+                  }
+                 
+                } ,
+             },
+             methods:{
+               isFree:function(chapter){
+                    return {color:chapter.isVip==true?'red':'green'}
+               },
+                 //获取书籍
+                 getBookInfo:function () {
+                     let self=this;
+                     axios.get(`/api/book-info/${id}`).then((response)=>{
+                        let info=response.data;
+                        this.info=info;
+                        console.log(info)
+                     })
+                 },
+                //获取书源
+                getBookSource:function(){
+                    axios.get(`/api/book-sources?view=summary&book=${id}`).then((response)=>{
+                        let sources=response.data;
+                        this.sources=sources;
+                        console.log("可选书源"+JSON.stringify(sources));
+                        this.getBookChapters(sources[0],this.sourceSel);
+                        // console.log(books)
+                     })
+                },
+                  //获取章节list
+                 getBookChapters:function (source,index) {
+                  this.chapters=[];
+                  this.sourceSel=index;
+                  let {_id}=source
+                     let self=this;
+                     axios.get('/api/book-chapters/'+_id).then((response)=>{
+                        let chapters=response.data.chapters;
+                        this.chapters=chapters;
+                        console.log(chapters)
+                     })
+                 }
+                 
+             },
+            mounted(){
+              this.getBookInfo();
+              this.getBookSource();
+            }
+        });
+    </script>
+
+  </body>
+</html>

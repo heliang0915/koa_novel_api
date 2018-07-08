@@ -1,7 +1,7 @@
 let  axios= require('axios');
 let  config= require('../config');
 var instance = axios.create({
-  baseURL: config.api.baseURL
+  baseURL: config.api.proxyURL
 });
 
 let fetch={

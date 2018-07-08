@@ -1,6 +1,6 @@
 let config={
     api:{
-        baseURL: 'http://api.zhuishushenqi.com'
+        proxyURL: 'http://novel.juhe.im'
     }
 }
 module.exports= config;

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+      [v-cloak]{
+        display: none;
+      }
+      #app img{
+        width: 120px;
+        height: 150px;
+      }
+      #app ul{
+        list-style: none;
+      }
+        #app ul li{
+           margin: 10px;
+        }
+        #app ul li a{}
+    </style>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <div id="app" v-cloak>
+        <div>
+              <div v-show="Object.keys(chapter).length==0"> 内容加载中...</div>
+             <div v-show="Object.keys(chapter).length>0">{{chapter.cpContent}}</div>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+    <script>
+        var vm=new Vue({
+             el:"#app",
+             data:{
+                chapter:{},
+                link:'<%-link%>',
+             },
+             methods:{
+                 getBookContent:function(){
+                     let self=this;
+                     axios.get('/api/chapters/'+encodeURIComponent(this.link)).then((response)=>{
+                        let chapter=response.data.chapter;
+                        this.chapter=chapter;
+                     })
+                 }
+             },
+            mounted(){
+              this.getBookContent();
+            }
+        });
+    </script>
+
+  </body>
+</html>
