@@ -54,6 +54,7 @@ router.post('/wxRegister',async (ctx, next)=>{
 });
 
 router.post('/checkLogin',async (ctx, next)=> {
+    console.log("checkLogin.....");
     let isLogin=util.userUtil.checkLogin(ctx.request);
     ctx.body=isLogin
 })
