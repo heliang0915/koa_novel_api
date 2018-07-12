@@ -2,13 +2,25 @@ let tokenUtil=require("../security/token")
 let util=require("../util/util")
 let fetch=require("../util/fetch")
 const router=require("koa-router")();
+let config = require("../config");
+let wx = config.wx;
+let  appId = wx.appId;
+let secret = wx.secret;
+
 router.prefix('/wx');
 //登录
 router.get('/login/:code', async (ctx, next)=>{
     var {code} = ctx.params;
-    fetch(`https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${secret}&js_code=${code}&grant_type=authorization_code`, req).then(function (resp, err) {
+    // var req=ctx.request;
+    console.log(fetch);
+
+    fetch.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${secret}&js_code=${code}&grant_type=authorization_code`).then(function (resp) {
+        console.log(resp);
         var data = resp.data.data;
+
         ctx.body=data
+    }).catch((err)=>{
+        console.log("error:"+err);
     });
 })
 //用户是否注册过

@@ -3,11 +3,11 @@ const router=require('koa-router')();
 router.prefix('/novel');
 
 
-router.get('/',async (ctx)=>{
-   await ctx.render('novel/novel-list',{
-   		title:"小说列表"
-   })
-})
+// router.get('/',async (ctx)=>{
+//    await ctx.render('novel/novel-list',{
+//    		title:"小说列表"
+//    })
+// })
 
 router.get('/category',async (ctx)=>{
    await ctx.render('novel/novel-category',{
