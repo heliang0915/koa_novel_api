@@ -9,7 +9,7 @@ router.get('*',async (ctx,next)=>{
     let res=await  fetch.get(url);
 
 
-    if(url.indexOf("info")>-1){
+    if(url.indexOf("info")>-1||url.indexOf("/recommend")>-1){
         let data=res.data;
         let maxLen=46;
         for(let key in data){
