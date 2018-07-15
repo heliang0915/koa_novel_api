@@ -7,6 +7,8 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger');
 const static=require('koa-static');
 
+let catalogQuery=require('./query/catalogQuery')
+
 
 const route = require('./middleware/route');
 const proxy = require('./middleware/proxy');
@@ -38,7 +40,8 @@ app.use(async (ctx, next) => {
 // app.use(proxy(app))
 // routes 注入路由中间件
 app.use(route(app))
-
+//加载缓存
+// catalogQuery.loadAllBook().then(()=>{});
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
