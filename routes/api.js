@@ -11,7 +11,7 @@ router.get('*',async (ctx,next)=>{
         let booId=url.substr(url.lastIndexOf('/')+1,url.length);
         console.log('booId:::'+booId);
         let data=await bookCacheManager.getBookChapterList(booId);
-        console.log(data);
+        // console.log(data);
         ctx.body={
             chapters:JSON.parse(data)
         };
