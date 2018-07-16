@@ -113,7 +113,7 @@ bookCacheManager.proto.loadAllBookChapters=async function () {
         if(source&&source._id){
             let sourceId=source._id;
             let catalogList=await catalogQuery.getCatalogList(sourceId);
-            if(catalogList&&catalogList.length){
+            if(catalogList&&catalogList.length1){
                 cache.set(sourceId,JSON.stringify(catalogList));
                 console.log(`加载第${i+1}部小说,小说【${book.title}】章节【${catalogList.length}】章`);
             }
@@ -143,11 +143,12 @@ bookCacheManager.proto.loadSingleSourceChapters=async function(sourceId){
 
 //获取指定源的章节列表
 bookCacheManager.proto.getBookChapterList=async function(sourceId){
-    console.log('sourceId::::'+sourceId);
+    console.log('sourceId::::@@@@@@'+sourceId);
     return new Promise((resolve, reject)=>{
         if(sourceId){
             cache.get(sourceId,(err,catalogList)=>{
-                err==null?resolve(catalogList):reject(err)
+                catalogList=(catalogList==null?[]:JSON.parse(catalogList));
+                err==null?resolve(catalogList):reject(err);
                 console.log("从缓存中获取章节信息");
             });
         }else {

@@ -3,6 +3,8 @@ let util=require("../util/util")
 let fetch=require("../util/fetch")
 const router=require("koa-router")();
 let config = require("../config");
+let BookCacheManager = require("../cache/bookCacheManager");
+let bookCacheManager=new BookCacheManager();
 let wx = config.wx;
 let  appId = wx.appId;
 let secret = wx.secret;
@@ -87,6 +89,29 @@ router.get('/updateInfo/:tid', async (ctx, next)=> {
     //         res.send(true);
     //     }
     // })
+});
+
+
+//章节分页
+router.get('/chapterPages/:sourceId', async (ctx, next)=> {
+    let {sourceId}=ctx.params;
+    console.log("sourceId"+sourceId);
+    // let chapterList= await bookCacheManager.getBookChapterList(sourceId);
+    let chapterList=await bookCacheManager.getBookChapterList(sourceId);
+    let total=chapterList.length;
+    console.log("total:::"+total);
+    let pageSize=100;
+    let totalPages=total>pageSize?Math.ceil(total/pageSize):1;
+    console.log("totalPages!!!!!"+totalPages);
+    let ary=[];
+    for(let i=0;i<totalPages;i++){
+        let join={};
+        let start=i*pageSize+1;
+        let end=(i+1)*pageSize>total?total:(i+1)*pageSize;
+        // join[`第${start}至${end}章`]=i+1;
+        ary.push(`第${start}至${end}章`);
+    }
+    ctx.body=ary;
 });
 
 

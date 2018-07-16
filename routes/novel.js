@@ -12,8 +12,6 @@ router.get('/category',async (ctx)=>{
    		title:"小说分类"
    })
 })
-
-
 router.get('/sub-category/:gender/:type/:major/:minor?',async (ctx)=>{
    let {gender,type,major,minor}=ctx.params;
 
@@ -33,6 +31,7 @@ router.get('/sub-category/:gender/:type/:major/:minor?',async (ctx)=>{
    		minor
    })
 })
+
 
 
 router.get('/getDetail/:id',async (ctx)=>{

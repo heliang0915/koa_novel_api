@@ -47,8 +47,31 @@ let util={
             }
             return userId;
         }
+    },
+    urlUtil:{
+         getQueryByName:function(url,name){
+            var reg=new RegExp('[?&]'+name+'=([^&#]+)');
+            var query=url.match(reg);
+            return query?query[1]:null;
+        },
+         parseQuery: function(url) {
+            var queryObj={};
+            var reg=/[?&]([^=&#]+)=([^&#]*)/g;
+            var querys=url.match(reg);
+            if(querys){
+                for(var i in querys){
+                    var query=querys[i].split('=');
+                    var key=query[0].substr(1),
+                        value=query[1];
+                    queryObj[key]?queryObj[key]=[].concat(queryObj[key],value):queryObj[key]=value;
+                }
+            }
+            return queryObj;
+        }
     }
 
 }
+
+
 module.exports=util;
 

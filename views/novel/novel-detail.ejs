@@ -55,6 +55,7 @@
                       </div>
                   </div>
                 章节列表
+                <a @click="next">下一页</a>
                 <ul>
                     <li v-show="chapters.length==0"> 章节加载中...</li>
                    <li v-show="chapters.length>0&&chapter.isVip==false" v-for="  chapter in chapters">
@@ -104,6 +105,11 @@
                 } ,
              },
              methods:{
+               next:function(){
+                   let {sources}=this;
+                   console.log("可选书源"+JSON.stringify(sources));
+                   this.getBookChapters(sources[0],this.sourceSel,2);
+               },
                isFree:function(chapter){
                     return {color:chapter.isVip==true?'red':'green'}
                },
@@ -127,12 +133,13 @@
                      })
                 },
                   //获取章节list
-                 getBookChapters:function (source,index) {
+                 getBookChapters:function (source,index,page) {
                   this.chapters=[];
+                  page= page==null?1:page;
                   this.sourceSel=index;
                   let {_id}=source
                      let self=this;
-                     axios.get('/api/book-chapters/'+_id).then((response)=>{
+                     axios.get('/api/book-chapters/'+_id+'?page='+page+'&pageSize=100').then((response)=>{
                         let chapters=response.data.chapters;
                         this.chapters=chapters;
                         // console.log(chapters)
