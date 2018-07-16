@@ -10,7 +10,9 @@ router.get('*',async (ctx,next)=>{
     if(url.indexOf('/book-chapters/')>-1){
         let sourceId=url.substr(url.lastIndexOf('/')+1,url.length);
         let data=await bookCacheManager.getBookChapterList(sourceId);
-        data=JSON.parse(data);
+
+        console.log(typeof data);
+        data=(data==null?[]:JSON.parse(data));
         if(data.length==0){
             console.log("bookCacheManager~~~~~~~~~");
             await bookCacheManager.loadSingleSourceChapters(sourceId);
