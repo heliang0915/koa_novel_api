@@ -126,7 +126,7 @@ bookCacheManager.proto.loadAllBookChapters=async function () {
 //装载单个源
 bookCacheManager.proto.loadBookSource=async function(bookId){
     let source=await bookQuery.getSource(bookId);
-    console.log(JSON.stringify(source));
+    // console.log(JSON.stringify(source));
     cache.set(bookId,JSON.stringify(source));
     console.log(`加载小说 源信息`);
 }
