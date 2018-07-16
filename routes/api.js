@@ -9,20 +9,26 @@ router.get('*',async (ctx,next)=>{
     url=url.replace('/api','');
     if(url.indexOf('/book-chapters/')>-1){
         let sourceId=url.substr(url.lastIndexOf('/')+1,url.length);
-        let data=await bookCacheManager.getBookChapterList(sourceId);
-
-        console.log(typeof data);
-        data=(data==null?[]:JSON.parse(data));
-        if(data.length==0){
-            console.log("bookCacheManager~~~~~~~~~");
-            await bookCacheManager.loadSingleSourceChapters(sourceId);
-            data=await bookCacheManager.getBookChapterList(sourceId);
-            data=JSON.parse(data);
+        // let data=await bookCacheManager.getBookChapterList(sourceId);
+        url=`/atoc/${sourceId}?view=chapters`; //调用源地址
+        console.log('url:::'+url);
+        //
+        //
+        //
+        // console.log(typeof data);
+        // data=(data==null?[]:JSON.parse(data));
+        // if(data.length==0){
+        //     console.log("bookCacheManager~~~~~~~~~");
+        //     await bookCacheManager.loadSingleSourceChapters(sourceId);
+        //     data=await bookCacheManager.getBookChapterList(sourceId);
+        //     data=JSON.parse(data);
+        // }
+        // ctx.body={
+        //     chapters:data
         }
-        ctx.body={
-            chapters:data
-        };
-    }else{
+    // }else{
+
+
         let res=await  fetch.get(url);
         if(url.indexOf("info")>-1||url.indexOf("/recommend")>-1){
             let data=res.data;
@@ -45,7 +51,7 @@ router.get('*',async (ctx,next)=>{
             }
         }
         ctx.body=res.data;
-    }
+    // }
     //
     //     // console.log(booId)
     //     let data=await catalogQuery.getBookCatalogs(booId);

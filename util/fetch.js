@@ -7,8 +7,9 @@ var instance = axios.create({
 let switchURL=(url)=>{
     let baseURL=config.api.proxyURL;
     //这种url需要被转义成api.zhuishushenqi.com
-    if(url.indexOf("/post")>-1||url.indexOf("/book-list")>-1){
-        baseURL=config.api.proxyZhuiShuURL
+    if(url.indexOf("/post")>-1||url.indexOf("/book-list")>-1||url.indexOf("/atoc/")>-1){
+        baseURL=config.api.proxyZhuiShuURL;
+        console.log("baseURL:::"+baseURL)
     }
     return baseURL;
 }
