@@ -9,22 +9,13 @@ router.get('*',async (ctx,next)=>{
     url=url.replace('/api','');
     if(url.indexOf('/book-chapters/')>-1){
         let booId=url.substr(url.lastIndexOf('/')+1,url.length);
+        console.log('booId:::'+booId);
         let data=await bookCacheManager.getBookChapterList(booId);
         console.log(data);
-    }
-    //
-    //     // console.log(booId)
-    //     let data=await catalogQuery.getBookCatalogs(booId);
-    //     if(data){
-    //         console.log('取缓存');
-    //         ctx.body={chapters:data};
-    //     }else{
-    //         let res=await  fetch.get(url);
-    //         console.log('取接口');
-    //         ctx.body=res.data;
-    //         // catalogQuery.loadAllBook();
-    //     }
-    // }else{
+        ctx.body={
+            chapters:JSON.parse(data)
+        };
+    }else{
         let res=await  fetch.get(url);
         if(url.indexOf("info")>-1||url.indexOf("/recommend")>-1){
             let data=res.data;
@@ -47,6 +38,21 @@ router.get('*',async (ctx,next)=>{
             }
         }
         ctx.body=res.data;
+    }
+    //
+    //     // console.log(booId)
+    //     let data=await catalogQuery.getBookCatalogs(booId);
+    //     if(data){
+    //         console.log('取缓存');
+    //         ctx.body={chapters:data};
+    //     }else{
+    //         let res=await  fetch.get(url);
+    //         console.log('取接口');
+    //         ctx.body=res.data;
+    //         // catalogQuery.loadAllBook();
+    //     }
+    // }else{
+
     // }
 
 })

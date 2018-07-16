@@ -85,14 +85,18 @@ bookCacheManager.proto.loadAllBookSource=async function () {
     }
 }
 //获取单一源
-bookCacheManager.proto.getBookSource=function(bookId){
+bookCacheManager.proto.getBookSource= function(bookId){
     return new Promise((resolve, reject)=>{
         cache.get(bookId,(err,sources)=>{
             if(err){
                 reject(err);
             }else{
                 sources=JSON.parse(sources);
-                resolve(sources[0])
+                if(sources){
+                    resolve(sources[0])
+                }else{
+                    resolve(null)
+                }
             }
         })
     })
@@ -120,15 +124,19 @@ bookCacheManager.proto.loadAllBookChapters=async function () {
 
 
 //获取指定源的章节列表
-bookCacheManager.proto.getBookChapterList=function(bookId){
+bookCacheManager.proto.getBookChapterList=async function(sourceId){
+    console.log('sourceId::::'+sourceId);
     return new Promise((resolve, reject)=>{
-        let sourceId=this.getBookSource(bookId)._id;
-        cache.get(sourceId,(err,catalogList)=>{
-            err=null?resolve(catalogList):reject(err)
-        });
+        if(sourceId){
+            cache.get(sourceId,(err,catalogList)=>{
+                err==null?resolve(catalogList):reject(err)
+                console.log("从缓存中获取章节信息");
+            });
+        }else {
+            reject(new Error("sourceId undefined"))
+        }
     })
 }
-
 
 //初始化启动 缓存所有数据
 bookCacheManager.proto.init=async function () {
@@ -140,5 +148,11 @@ bookCacheManager.proto.init=async function () {
     await this.loadAllBookChapters();
 }
 let manage=new bookCacheManager();
-manage.loadAllBookChapters().then(()=>{})
+// manage.loadAllBookChapters().then(()=>{})
+
+// new bookCacheManager().getBookChapterList('5817f1137063737f47bb47fd').then((chapterList)=>{
+//     console.log(chapterList);
+// });
+
+
 module.exports=bookCacheManager;
