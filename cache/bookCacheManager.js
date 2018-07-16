@@ -115,7 +115,7 @@ bookCacheManager.proto.loadAllBookChapters=async function () {
             let catalogList=await catalogQuery.getCatalogList(sourceId);
             if(catalogList&&catalogList.length){
                 cache.set(sourceId,JSON.stringify(catalogList));
-                console.log(`加载小说【${book.title}】章节【${catalogList.length}】章`);
+                console.log(`加载第${i+1}部小说,小说【${book.title}】章节【${catalogList.length}】章`);
             }
 
         }
