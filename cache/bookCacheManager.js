@@ -103,14 +103,20 @@ bookCacheManager.proto.getBookSource=function(bookId){
 //获取章节信息
 bookCacheManager.proto.loadAllBookChapters=async function () {
     let books=await this.getAllBooks();
+    // books=books.slice(0,2);
     for(var i=0;i<books.length;i++) {
         let book = books[i];
         let bookId = book._id;
         let source=await this.getBookSource(bookId);
-        let sourceId=source._id;
-        let catalogList=await catalogQuery.getCatalogList(sourceId);
-        cache.set(sourceId,JSON.stringify(catalogList));
-        console.log(`加载小说【${book.title}】章节【${catalogList.length}】章`);
+        if(source&&source._id){
+            let sourceId=source._id;
+            let catalogList=await catalogQuery.getCatalogList(sourceId);
+            if(catalogList&&catalogList.length){
+                cache.set(sourceId,JSON.stringify(catalogList));
+                console.log(`加载小说【${book.title}】章节【${catalogList.length}】章`);
+            }
+
+        }
     }
 }
 
@@ -127,10 +133,7 @@ bookCacheManager.proto.init=async function () {
 
 let manage=new bookCacheManager();
 
-
-
-
-manage.loadAllBookSource().then(()=>{
+manage.loadAllBookChapters().then(()=>{
 
 })
 
