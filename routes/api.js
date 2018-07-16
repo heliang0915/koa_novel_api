@@ -8,9 +8,15 @@ router.get('*',async (ctx,next)=>{
     let url=ctx.request.originalUrl;
     url=url.replace('/api','');
     if(url.indexOf('/book-chapters/')>-1){
-        let booId=url.substr(url.lastIndexOf('/')+1,url.length);
-        console.log('booId:::'+booId);
-        let data=await bookCacheManager.getBookChapterList(booId);
+        let sourceId=url.substr(url.lastIndexOf('/')+1,url.length);
+        console.log("sourceId!!!!!!!!"+sourceId);
+
+        // let sourceId=await bookCacheManager.getBookSource(bookId);
+        let data=await bookCacheManager.getBookChapterList(sourceId);
+        if(data==null){
+            await bookCacheManager.loadBookSource(sourceId);
+            data=await bookCacheManager.getBookChapterList(sourceId);
+        }
         // console.log(data);
         ctx.body={
             chapters:JSON.parse(data)
