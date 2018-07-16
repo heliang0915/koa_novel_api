@@ -4,7 +4,8 @@ let categoriesQuery=require("../query/categoriesQuery");
 let catalogQuery=require("../query/catalogQuery");
 function  bookCacheManager() {}
 bookCacheManager.proto=bookCacheManager.prototype;
-//加载所有
+
+//加载所有书籍
 bookCacheManager.proto.loadAll=async function(){
     console.log(`开始加载小说全部小说...`);
     let books=await this.getAllBooks();
@@ -54,8 +55,7 @@ bookCacheManager.proto.loadAll=async function(){
     }
 
 }
-
-
+//从缓存中获取所有书籍
 bookCacheManager.proto.getAllBooks=function(){
     return new Promise((resolve, reject)=>{
         console.log("开始获取全部书籍...");
@@ -70,7 +70,7 @@ bookCacheManager.proto.getAllBooks=function(){
         })
     })
 }
-
+//加载书源信息
 bookCacheManager.proto.loadAllBookSource=async function () {
     let books=await this.getAllBooks();
     console.log(books.length);
@@ -84,7 +84,6 @@ bookCacheManager.proto.loadAllBookSource=async function () {
         console.log(`加载小说【${book.title}】源信息`);
     }
 }
-
 //获取单一源
 bookCacheManager.proto.getBookSource=function(bookId){
     return new Promise((resolve, reject)=>{
@@ -99,8 +98,7 @@ bookCacheManager.proto.getBookSource=function(bookId){
     })
 
 }
-
-//获取章节信息
+//加载章节信息
 bookCacheManager.proto.loadAllBookChapters=async function () {
     let books=await this.getAllBooks();
     // books=books.slice(0,2);
@@ -121,6 +119,18 @@ bookCacheManager.proto.loadAllBookChapters=async function () {
 }
 
 
+//获取指定源的章节列表
+bookCacheManager.proto.getBookChapterList=function(bookId){
+    return new Promise((resolve, reject)=>{
+        let sourceId=this.getBookSource(bookId)._id;
+        cache.get(sourceId,(err,catalogList)=>{
+            err=null?resolve(catalogList):reject(err)
+        });
+    })
+}
+
+
+//初始化启动 缓存所有数据
 bookCacheManager.proto.init=async function () {
     //加载所有书籍
     await this.loadAll();
@@ -129,14 +139,6 @@ bookCacheManager.proto.init=async function () {
     //加载所有章节
     await this.loadAllBookChapters();
 }
-
-
 let manage=new bookCacheManager();
-
-manage.loadAllBookSource().then(()=>{
-
-})
-
-// cache.set("",JSON.stringify(allBookList));
-
+manage.loadAllBookChapters().then(()=>{})
 module.exports=bookCacheManager;

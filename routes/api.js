@@ -1,14 +1,18 @@
 const router=require('koa-router')();
 let fetch=require('../util/fetch')
-let catalogQuery=require('../query/catalogQuery')
+let BookCacheManager=require('../cache/bookCacheManager');
+let bookCacheManager=new BookCacheManager();
 router.prefix('/api');
 
 router.get('*',async (ctx,next)=>{
     let url=ctx.request.originalUrl;
     url=url.replace('/api','');
-
-    // if(url.indexOf('/book-chapters/')>-1){
-    //     let booId=url.substr(url.lastIndexOf('/')+1,url.length);
+    if(url.indexOf('/book-chapters/')>-1){
+        let booId=url.substr(url.lastIndexOf('/')+1,url.length);
+        let data=await bookCacheManager.getBookChapterList(booId);
+        console.log(data);
+    }
+    //
     //     // console.log(booId)
     //     let data=await catalogQuery.getBookCatalogs(booId);
     //     if(data){
