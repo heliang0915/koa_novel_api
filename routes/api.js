@@ -9,17 +9,16 @@ router.get('*',async (ctx,next)=>{
     url=url.replace('/api','');
     if(url.indexOf('/book-chapters/')>-1){
         let sourceId=url.substr(url.lastIndexOf('/')+1,url.length);
-        console.log("sourceId!!!!!!!!"+sourceId);
-
-        // let sourceId=await bookCacheManager.getBookSource(bookId);
         let data=await bookCacheManager.getBookChapterList(sourceId);
-        if(data==null){
-            await bookCacheManager.loadBookSource(sourceId);
+        data=JSON.parse(data);
+        if(data.length==0){
+            console.log("bookCacheManager~~~~~~~~~");
+            await bookCacheManager.loadSingleSourceChapters(sourceId);
             data=await bookCacheManager.getBookChapterList(sourceId);
+            data=JSON.parse(data);
         }
-        // console.log(data);
         ctx.body={
-            chapters:JSON.parse(data)
+            chapters:data
         };
     }else{
         let res=await  fetch.get(url);

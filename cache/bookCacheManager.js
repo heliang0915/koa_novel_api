@@ -131,9 +131,15 @@ bookCacheManager.proto.loadBookSource=async function(bookId){
     console.log(`加载小说 源信息`);
 }
 
-
-
-
+//装在单个章节信息
+// 5aa8e1cd9bb8d27a1af3b5de
+bookCacheManager.proto.loadSingleSourceChapters=async function(sourceId){
+    let catalogList=await catalogQuery.getCatalogList(sourceId);
+    if(catalogList&&catalogList.length){
+        cache.set(sourceId,JSON.stringify(catalogList));
+        console.log(`加载小说章节【${catalogList.length}】章`);
+    }
+}
 
 //获取指定源的章节列表
 bookCacheManager.proto.getBookChapterList=async function(sourceId){
