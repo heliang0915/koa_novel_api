@@ -7,9 +7,8 @@ bookCacheManager.proto=bookCacheManager.prototype;
 //加载所有
 bookCacheManager.proto.loadAll=async function(){
     console.log(`开始加载小说全部小说...`);
-
     let books=await this.getAllBooks();
-    if(books.length>0){
+    if(books&&books.length>0){
         console.log("已经缓存");
     }else{
         let allBookList=[];
@@ -59,16 +58,17 @@ bookCacheManager.proto.loadAll=async function(){
 
 bookCacheManager.proto.getAllBooks=function(){
     return new Promise((resolve, reject)=>{
+        console.log("开始获取全部书籍...");
         cache.get("books:all",(err,books)=>{
             if(err){
                 reject(err);
             }else{
+                console.log(`获取全部书籍成功，书籍数量${books.length}...`);
                 books=JSON.parse(books);
                 resolve(books)
             }
         })
     })
-
 }
 
 bookCacheManager.proto.loadAllBookSource=async function () {
@@ -133,9 +133,10 @@ bookCacheManager.proto.init=async function () {
 
 let manage=new bookCacheManager();
 
-manage.loadAllBookChapters().then(()=>{
+manage.loadAllBookSource().then(()=>{
 
 })
 
+// cache.set("",JSON.stringify(allBookList));
 
 module.exports=bookCacheManager;

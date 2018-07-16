@@ -9,6 +9,9 @@ let cache={
             console.log("Error " + err);
         });
         this.client.on('ready', function () {
+            console.log('redisCache ready succeed');
+        });
+        this.client.on('connect', function () {
             console.log('redisCache connection succeed');
         });
     },
