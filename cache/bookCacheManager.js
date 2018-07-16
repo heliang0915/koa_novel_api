@@ -148,7 +148,7 @@ bookCacheManager.proto.init=async function () {
     await this.loadAllBookChapters();
 }
 let manage=new bookCacheManager();
-manage.loadAllBookChapters().then(()=>{})
+// manage.loadAllBookChapters().then(()=>{})
 
 // new bookCacheManager().getBookChapterList('5817f1137063737f47bb47fd').then((chapterList)=>{
 //     console.log(chapterList);
