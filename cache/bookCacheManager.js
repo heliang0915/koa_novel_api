@@ -148,7 +148,7 @@ bookCacheManager.proto.getBookChapterList=async function(sourceId){
         if(sourceId){
             cache.get(sourceId,(err,catalogList)=>{
                 err==null?resolve(catalogList):reject(err)
-                console.log("从缓存中获取章节信息"+JSON.stringify(catalogList));
+                console.log("从缓存中获取章节信息");
             });
         }else {
             reject(new Error("sourceId undefined"))
