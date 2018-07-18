@@ -20,7 +20,7 @@ router.get('*',async (ctx,next)=>{
         // console.log(typeof data);
         // data=(data==null?[]:JSON.parse(data));
         if(data.length==0){
-            console.log("bookCacheManager~~~~~~~~~");
+            console.log("缓存中没有 重新缓存...");
             await bookCacheManager.loadSingleSourceChapters(sourceId);
             data=await bookCacheManager.getBookChapterList(sourceId);
         }
