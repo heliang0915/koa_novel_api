@@ -14,16 +14,35 @@ router.prefix('/wx');
 router.get('/login/:code', async (ctx, next)=>{
     var {code} = ctx.params;
     // var req=ctx.request;
-    console.log(fetch);
+    // console.log(fetch);
 
-    fetch.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${secret}&js_code=${code}&grant_type=authorization_code`).then(function (resp) {
-        console.log(resp);
-        var data = resp.data.data;
+    function getWeiXinApi() {
+           return new Promise((resolve, reject)=>{
+               fetch.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${secret}&js_code=${code}&grant_type=authorization_code`).then(function (resp) {
 
-        ctx.body=data
-    }).catch((err)=>{
-        console.log("error:"+err);
-    });
+                   var data = resp.data;
+                   console.log(data);
+                   resolve(data);
+               }).catch((err)=>{
+                   console.log(err);
+                   reject(err);
+               })
+           })
+    }
+
+    let data=await getWeiXinApi();
+   // let resp=await fetch.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${secret}&js_code=${code}&grant_type=authorization_code`);//.then(function (resp) {
+        // console.log(resp);
+        // var data = resp.data.data;
+        //
+        // ctx.body=data
+    // })
+
+    // var data = resp.data.data;
+    ctx.body=data
+    //    .catch((err)=>{
+    //     console.log("error:"+err);
+    // });
 })
 //用户是否注册过
 router.get('/exist/:tid', async (ctx, next)=> {
