@@ -144,12 +144,15 @@ bookCacheManager.proto.loadSingleSourceChapters=async function(sourceId){
 //获取指定源的章节列表
 bookCacheManager.proto.getBookChapterList=async function(sourceId){
     console.log('sourceId::::@@@@@@'+sourceId);
+    let startTime=Date.now();
     return new Promise((resolve, reject)=>{
         if(sourceId){
             cache.get(sourceId,(err,catalogList)=>{
                 catalogList=(catalogList==null?[]:JSON.parse(catalogList));
                 err==null?resolve(catalogList):reject(err);
                 console.log("从缓存中获取章节信息");
+                let endTime=Date.now();
+                console.log("耗时："+(endTime-startTime)+"ms");
             });
         }else {
             reject(new Error("sourceId undefined"))
