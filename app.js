@@ -6,16 +6,11 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger');
 const static=require('koa-static');
-
 let catalogQuery=require('./query/catalogQuery')
-
-
 const route = require('./middleware/route');
 const proxy = require('./middleware/proxy');
-
 // error handler
 onerror(app)
-
 // middlewares
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
@@ -27,7 +22,6 @@ app.use(static(__dirname + '/public'))
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
 }))
-
 // logger
 app.use(async (ctx, next) => {
   const start = new Date()
@@ -35,7 +29,6 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
-
 //注入代理
 // app.use(proxy(app))
 // routes 注入路由中间件
@@ -46,5 +39,4 @@ app.use(route(app))
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 });
-
 module.exports = app
