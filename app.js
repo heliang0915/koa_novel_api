@@ -18,7 +18,6 @@ app.use(bodyparser({
 app.use(json())
 app.use(logger())
 app.use(static(__dirname + '/public'))
-
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
 }))
