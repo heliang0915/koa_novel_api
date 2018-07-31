@@ -16,12 +16,14 @@ let switchURL=(url)=>{
 let fetch={
     get(url){
        var baseURL=switchURL(url);
+       console.log("baseURL:::"+baseURL)
        instance.defaults.baseURL=baseURL;
       return instance.get(url);
     },
     post(url,body){
      var baseURL=switchURL(url);
       instance.defaults.baseURL=baseURL;
+     console.log("baseURL:::"+baseURL)
       return instance.post(url,body);
     }
 }
