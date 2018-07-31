@@ -25,7 +25,7 @@
     <div id="app" v-cloak>
         <div>
               <div v-show="Object.keys(chapter).length==0"> 内容加载中...</div>
-             <div v-show="Object.keys(chapter).length>0">{{chapter.cpContent}}</div>
+             <div v-show="Object.keys(chapter).length>0">{{chapter.cpContent||chapter.body}}</div>
         </div>
     </div>
     <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>

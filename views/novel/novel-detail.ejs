@@ -58,7 +58,7 @@
                 <a @click="next">下一页</a>
                 <ul>
                     <li v-show="chapters.length==0"> 章节加载中...</li>
-                   <li v-show="chapters.length>0&&chapter.isVip==false" v-for="  chapter in chapters">
+                   <li v-show="chapters.length>0" v-for="  chapter in chapters">
                       <a  :href="'/novel/read/'+encodeURIComponent(chapter.link)">{{chapter.title}} </a>
                       <em>是否付费:<font :style="isFree(chapter)">{{chapter.isVip==true?"付费":"免费"}}</font></em>
             

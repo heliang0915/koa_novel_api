@@ -143,7 +143,7 @@ bookCacheManager.proto.loadSingleSourceChapters=async function(sourceId){
 
 //获取指定源的章节列表
 bookCacheManager.proto.getBookChapterList=async function(sourceId){
-    console.log('sourceId::::@@@@@@'+sourceId);
+    // console.log('sourceId::::@@@@@@'+sourceId);
     let startTime=Date.now();
     return new Promise((resolve, reject)=>{
         if(sourceId){
