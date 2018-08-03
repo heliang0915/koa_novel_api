@@ -1,7 +1,7 @@
 let config={
     api:{
-        // proxyURL: 'http://novel.juhe.im/',
-        proxyURL: 'http://127.0.0.1:8020/',
+        // proxyURL: 'http://127.0.0.1:8020/',
+        proxyURL: 'https://novel.blogapi.top/api/',
         proxyZhuiShuURL:'http://api.zhuishushenqi.com/', //有几个接口没有包装 这里直接调用追书接口
     },
     wx: {
@@ -10,12 +10,11 @@ let config={
     },
     redis:{
         port:6379,
+        host:'127.0.0.1'
         // host:'www.blogapi.top',
-        host:'127.0.0.1',
-        password:"HL@HR123&456$"
         // host:'127.0.0.1',
-
-
+        // password:"HL@HR123&456$"
+        // host:'127.0.0.1',
     },
     pageSize:10
 }

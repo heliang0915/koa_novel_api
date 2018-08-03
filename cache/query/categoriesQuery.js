@@ -1,12 +1,12 @@
-let fetch=require('../util/fetch');
-let  config= require('../config');
+let fetch=require('../../util/fetch');
+let  config= require('../../config');
 
 // let cache=require('../cache/cache');
 
 //获取带书籍数量的父分类
 function getCategories() {
     return new Promise((resolve, reject)=>{
-        fetch.get(`categories`).then((res)=>{
+        fetch.get(`apicategories`).then((res)=>{
             resolve(res.data);
         }).catch((err)=>{
             reject(err);

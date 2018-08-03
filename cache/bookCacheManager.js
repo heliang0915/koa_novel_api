@@ -1,10 +1,9 @@
-let bookQuery=require("../query/bookQuery");
+let bookQuery=require("./query/bookQuery");
 let cache=require("../cache/cache");
-let categoriesQuery=require("../query/categoriesQuery");
-let catalogQuery=require("../query/catalogQuery");
+let categoriesQuery=require("./query/categoriesQuery");
+let catalogQuery=require("./query/catalogQuery");
 function  bookCacheManager() {}
 bookCacheManager.proto=bookCacheManager.prototype;
-
 //加载所有书籍
 bookCacheManager.proto.loadAll=async function(){
     console.log(`开始加载小说全部小说...`);
@@ -12,6 +11,7 @@ bookCacheManager.proto.loadAll=async function(){
     if(books&&books.length>0){
         console.log("已经缓存");
     }else{
+      console.log("未缓存...");
         let allBookList=[];
         let subList=await  categoriesQuery.getSubCategories();
         for(let gender in subList){
@@ -63,13 +63,21 @@ bookCacheManager.proto.getAllBooks=function(){
             if(err){
                 reject(err);
             }else{
+              if(books){
                 console.log(`获取全部书籍成功，书籍数量${books.length}...`);
                 books=JSON.parse(books);
                 resolve(books)
+              }else{
+                resolve([])
+              }
             }
         })
     })
 }
+
+
+
+
 //加载书源信息
 bookCacheManager.proto.loadAllBookSource=async function () {
     let books=await this.getAllBooks();
@@ -163,13 +171,16 @@ bookCacheManager.proto.getBookChapterList=async function(sourceId){
 //初始化启动 缓存所有数据
 bookCacheManager.proto.init=async function () {
     //加载所有书籍
-    await this.loadAll();
+    // await this.loadAll();
     //加载所有源
     await this.loadAllBookSource();
     //加载所有章节
-    await this.loadAllBookChapters();
+    // await this.loadAllBookChapters();
 }
-let manage=new bookCacheManager();
+// let manage=new bookCacheManager();
+// manage.init().then(()=>{
+// //
+// });
 // manage.loadAllBookChapters().then(()=>{})
 
 // new bookCacheManager().getBookChapterList('5817f1137063737f47bb47fd').then((chapterList)=>{
@@ -179,6 +190,5 @@ let manage=new bookCacheManager();
 // manage.loadBookSource('5aa8e1cd9bb8d27a1af3b5dc').then(()=>{
 //
 // });
-
 
 module.exports=bookCacheManager;

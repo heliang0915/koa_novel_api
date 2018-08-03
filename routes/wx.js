@@ -8,6 +8,7 @@ let bookCacheManager=new BookCacheManager();
 let wx = config.wx;
 let  appId = wx.appId;
 let secret = wx.secret;
+let bookQuery=require('../query/bookQuery');
 
 router.prefix('/wx');
 //登录
@@ -15,7 +16,6 @@ router.get('/login/:code', async (ctx, next)=>{
     var {code} = ctx.params;
     // var req=ctx.request;
     // console.log(fetch);
-
     function getWeiXinApi() {
            return new Promise((resolve, reject)=>{
                fetch.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${secret}&js_code=${code}&grant_type=authorization_code`).then(function (resp) {
@@ -132,6 +132,11 @@ router.get('/chapterPages/:sourceId', async (ctx, next)=> {
     }
     ctx.body=ary;
 });
-
+//获取书架列表
+router.get('/getShelfBooks/:ids', async (ctx, next)=> {
+     let {ids}=ctx.params;
+     let books=await bookQuery.getBooksByIds(ids);
+     ctx.body=books;
+});
 
 module.exports=router;

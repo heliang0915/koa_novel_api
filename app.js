@@ -6,7 +6,7 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger');
 const static=require('koa-static');
-let catalogQuery=require('./query/catalogQuery')
+// let catalogQuery=require('./query/catalogQuery')
 const route = require('./middleware/route');
 const proxy = require('./middleware/proxy');
 // error handler

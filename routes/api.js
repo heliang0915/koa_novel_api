@@ -24,6 +24,7 @@ router.get('*',async (ctx,next)=>{
         })
         let {page,pageSize}=params;
         page=page==null?1:page;
+        console.log("======总章节::::::"+data.length);
         pageSize=pageSize==null?100:pageSize;
         let start=(page-1)*pageSize;
         let end=start+pageSize;
@@ -32,6 +33,8 @@ router.get('*',async (ctx,next)=>{
             chapters:data
         }
     }else{
+
+      console.log("url::::::::"+url);
         let res=await  fetch.get(url);
         if(url.indexOf("info")>-1||url.indexOf("/recommend")>-1){
             let data=res.data;

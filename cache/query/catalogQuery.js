@@ -1,6 +1,6 @@
 
-let fetch=require('../util/fetch');
-let cache=require('../cache/cache')
+let fetch=require('../../util/fetch');
+let cache=require('../cache')
 let categorys=[
     "武侠",
     "玄幻",
@@ -11,7 +11,7 @@ let categorys=[
  /*
  * _id : 书籍源id
  * */
-let  config= require('../config');
+let  config= require('../../config');
 
 
  function getCatalogList(sourceId) {
