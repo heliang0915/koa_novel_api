@@ -17,7 +17,10 @@ function getBooksByIds(bookIds) {
       let books = allBooks.filter((item) => {
         return bookIds.indexOf(item._id)>-1;
       })
-        resolve(books);
+      books.forEach((item)=>{
+        item.cover=decodeURIComponent(item.cover.replace('/agent/',''));
+      })
+      resolve(books);
     }).catch((err)=>{
       reject(err);
     })
