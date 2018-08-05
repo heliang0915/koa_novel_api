@@ -1,6 +1,7 @@
 /*添加安全token*/
 var crypto=require("crypto");
 var secret="novelapi.top";
+let timeout=3600*24; //token时效周期位1天
 var token={
     createToken:function(obj,timeout){
         var obj2={
@@ -8,14 +9,10 @@ var token={
             created:parseInt(Date.now()/1000),//token生成的时间的，单位秒
             exp:parseInt(timeout)||10//token有效期a
         };
-
         //payload信息
         console.log("obj"+JSON.stringify(obj));
         console.log("obj2"+JSON.stringify(obj2));
         var base64Str=Buffer.from(JSON.stringify(obj2),"utf8").toString("base64");
-
-
-
         //添加签名，防篡改
         var hash=crypto.createHmac('sha256',secret);
         hash.update(base64Str);
@@ -29,7 +26,6 @@ var token={
             //token不合法
             return false;
         }
-
         var payload={};
         var info=decArr[0];
         var signature=decArr[1];
@@ -44,7 +40,6 @@ var token={
         var hash=crypto.createHmac('sha256',secret);
         hash.update(decArr[0]);
         var checkSignature=hash.digest('base64');
-
         return {
             payload:payload,
             signature:signature,
@@ -55,7 +50,7 @@ var token={
     createUserToken:function(obj){
         let userInfo=typeof obj=="string"?{userId:obj}:obj;
         //设置token存活时间为1小时
-        let tokenStr=this.createToken(userInfo,3600);
+        let tokenStr=this.createToken(userInfo,timeout);
         return tokenStr;
     },
     checkToken:function(token){
@@ -85,8 +80,6 @@ var token={
         }
     }
 }
-
-
 
 // let timeout=parseInt(Date.now()/1000)+parseInt(24*3600);
 // let tokenStr=token.createToken({"name":"zhangsan","phone":"12333333333","pic":"http://www.blogapi.top:4869/95c1b9a02e102b5a0556fea58aa520b4?w=300&q=100","loginType":"0","order":2,"uuid":"8fe5f48e59f34679aff191165ce06f53","roleId":"40d13e63ab3744ef9c1b96f874fd8256"}
