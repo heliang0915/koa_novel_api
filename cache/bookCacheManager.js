@@ -121,7 +121,7 @@ bookCacheManager.proto.loadAllBookChapters=async function () {
         if(source&&source._id){
             let sourceId=source._id;
             let catalogList=await catalogQuery.getCatalogList(sourceId);
-            if(catalogList&&catalogList.length1){
+            if(catalogList&&catalogList.length){
                 cache.set(sourceId,JSON.stringify(catalogList));
                 console.log(`加载第${i+1}部小说,小说【${book.title}】章节【${catalogList.length}】章`);
             }
@@ -173,14 +173,14 @@ bookCacheManager.proto.init=async function () {
     //加载所有书籍
     // await this.loadAll();
     //加载所有源
-    await this.loadAllBookSource();
+    // await this.loadAllBookSource();
     //加载所有章节
-    // await this.loadAllBookChapters();
+    await this.loadAllBookChapters();
 }
-// let manage=new bookCacheManager();
-// manage.init().then(()=>{
-// //
-// });
+let manage=new bookCacheManager();
+manage.init().then(()=>{
+//
+});
 // manage.loadAllBookChapters().then(()=>{})
 
 // new bookCacheManager().getBookChapterList('5817f1137063737f47bb47fd').then((chapterList)=>{

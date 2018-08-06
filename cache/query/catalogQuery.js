@@ -48,63 +48,63 @@ let  config= require('../../config');
 // }
 
 
-// async function getAllBook(){
-//     let bookList =[];
-//     for(let major of categorys){
-//         let books=await getBookList(major);
-//         // console.log(books);
-//         bookList=bookList.concat(books);
-//         // console.log()
-//     }
-//     return bookList;
-// }
+async function getAllBook(){
+    let bookList =[];
+    for(let major of categorys){
+        let books=await getBookList(major);
+        // console.log(books);
+        bookList=bookList.concat(books);
+        // console.log()
+    }
+    return bookList;
+}
 
-// async function  loadAllBook(){
-//     let bookList=await  getAllBook();
-//     for(let book of bookList){
-//         let source=await getSource(book._id);
-//         let sourceId=source[0]._id;
-//         let catalogList=await getCatalogList(sourceId);
-//         // console.log(catalogList.length);
-//         cache.set(sourceId,JSON.stringify(catalogList));
-//         console.log(`加载小说【${book.title}】章节【${catalogList.length}】章`);
-//     }
-// }
+async function  loadAllBook(){
+    let bookList=await  getAllBook();
+    for(let book of bookList){
+        let source=await getSource(book._id);
+        let sourceId=source[0]._id;
+        let catalogList=await getCatalogList(sourceId);
+        // console.log(catalogList.length);
+        cache.set(sourceId,JSON.stringify(catalogList));
+        console.log(`加载小说【${book.title}】章节【${catalogList.length}】章`);
+    }
+}
 
 // loadAllBook().then(()=>{
 //
 // });
 
 //获取指定书籍的章节
-// function getBookCatalogs(bookId){
-//      // console.log(cache.get(bookId));
-//     return new Promise((resolve, reject)=> {
-//         cache.get(bookId, (err, catalogList) => {
-//                 if(err){
-//                     reject(err);
-//                 }else{
-//                     if(catalogList){
-//                         catalogList=JSON.parse(catalogList);
-//                         catalogList= catalogList.filter((catalog)=>{
-//                             return catalog.isVip==false;
-//                         })
-//                         catalogList.forEach((item)=>{
-//                             console.log(JSON.stringify(item));
-//                         })
-//                         resolve(catalogList)
-//                     }else {
-//                         resolve([])
-//                     }
-//
-//                 }
-//         })
-//     })
-//     // let catalogList=JSON.parse(cache.get(bookId));
-//     // return catalogList;
-// }
+function getBookCatalogs(bookId){
+     // console.log(cache.get(bookId));
+    return new Promise((resolve, reject)=> {
+        cache.get(bookId, (err, catalogList) => {
+                if(err){
+                    reject(err);
+                }else{
+                    if(catalogList){
+                        catalogList=JSON.parse(catalogList);
+                        catalogList= catalogList.filter((catalog)=>{
+                            return catalog.isVip==false;
+                        })
+                        catalogList.forEach((item)=>{
+                            console.log(JSON.stringify(item));
+                        })
+                        resolve(catalogList)
+                    }else {
+                        resolve([])
+                    }
+
+                }
+        })
+    })
+    // let catalogList=JSON.parse(cache.get(bookId));
+    // return catalogList;
+}
 
 module.exports = {
-    // getBookCatalogs,
-    getCatalogList
-    // loadAllBook
+    getBookCatalogs,
+    getCatalogList,
+    loadAllBook
 }

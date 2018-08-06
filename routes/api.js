@@ -8,7 +8,7 @@ router.prefix('/api');
 router.get('*',async (ctx,next)=>{
     let url=ctx.request.originalUrl;
     url=url.replace('/api','');
-    if(url.indexOf('/book-chapters/')>-1){
+    if(false&&url.indexOf('/book-chapters/')>-1){
         let endIndex=url.indexOf('?')>-1?url.indexOf('?'):url.length;
         let sourceId=url.substring(url.lastIndexOf('/')+1,endIndex);
         let params=util.urlUtil.parseQuery(url);

@@ -19,7 +19,6 @@ router.get('/login/:code', async (ctx, next)=>{
     function getWeiXinApi() {
            return new Promise((resolve, reject)=>{
                fetch.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${secret}&js_code=${code}&grant_type=authorization_code`).then(function (resp) {
-
                    var data = resp.data;
                    console.log(data);
                    resolve(data);
@@ -73,17 +72,12 @@ router.post('/wxRegister',async (ctx, next)=>{
     let tokenStr=tokenUtil.createUserToken("admin");
     // res.send(tokenStr);
     res.send(err == null ? tokenStr: err);
-
-
     // userManager.add(user, function (err,module) {
     //     //创建token
     //     let tokenStr=tokenUtil.createUserToken(module.uuid);
     //     // res.send(tokenStr);
     //     res.send(err == null ? tokenStr: err);
     // })
-
-
-
 });
 
 router.post('/checkLogin',async (ctx, next)=> {
@@ -114,7 +108,7 @@ router.get('/updateInfo/:tid', async (ctx, next)=> {
 //章节分页
 router.get('/chapterPages/:sourceId', async (ctx, next)=> {
     let {sourceId}=ctx.params;
-    console.log("sourceId"+sourceId);
+    // console.log("sourceId"+sourceId);
     // let chapterList= await bookCacheManager.getBookChapterList(sourceId);
     let chapterList=await bookCacheManager.getBookChapterList(sourceId);
     let total=chapterList.length;
