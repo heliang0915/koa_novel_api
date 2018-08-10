@@ -177,10 +177,10 @@ bookCacheManager.proto.init=async function () {
     //加载所有章节
     // await this.loadAllBookChapters();
 }
-// let manage=new bookCacheManager();
-// manage.init().then(()=>{
-// //
-// });
+let manage=new bookCacheManager();
+manage.init().then(()=>{
+//
+});
 // manage.loadAllBookChapters().then(()=>{})
 
 // new bookCacheManager().getBookChapterList('5817f1137063737f47bb47fd').then((chapterList)=>{
