@@ -171,11 +171,11 @@ bookCacheManager.proto.getBookChapterList=async function(sourceId){
 //初始化启动 缓存所有数据
 bookCacheManager.proto.init=async function () {
     //加载所有书籍
-    // await this.loadAll();
+    await this.loadAll();
     //加载所有源
     // await this.loadAllBookSource();
     //加载所有章节
-    await this.loadAllBookChapters();
+    // await this.loadAllBookChapters();
 }
 // let manage=new bookCacheManager();
 // manage.init().then(()=>{
